@@ -190,6 +190,7 @@ h1 {
           drop-shadow(0 0 12px #0ea5e9);
   transform-origin: center center;
   vertical-align: middle;
+  position: relative;
 }
 
 .reloj-arena.girando {
@@ -198,11 +199,23 @@ h1 {
 
 @keyframes giroArena {
   0% {
-    transform: rotate(0deg);
+    transform: translateX(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateX(0) rotate(45deg);
+  }
+
+  50% {
+    transform: translateX(0) rotate(90deg);
+  }
+
+  75% {
+    transform: translateX(0) rotate(135deg);
   }
 
   100% {
-    transform: rotate(180deg);
+    transform: translateX(0) rotate(180deg);
   }
 }
 
@@ -1722,11 +1735,6 @@ function girarRelojArena() {
   relojArena.classList.remove("girando");
   void relojArena.offsetWidth;
   relojArena.classList.add("girando");
-
-  setTimeout(() => {
-    relojArena.textContent = arenaArriba ? "⌛" : "⏳";
-    arenaArriba = !arenaArriba;
-  }, 750);
 }
 
 
