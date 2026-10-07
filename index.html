@@ -174,7 +174,7 @@ h1 {
 
 
 /* ==========================================
-   RELOJ DE ARENA DIGITAL
+   RELOJ DE ARENA DIGITAL — HOLOGRÁFICO
 ========================================== */
 
 .reloj-arena {
@@ -195,37 +195,41 @@ h1 {
   width: 26px;
   height: 32px;
   transform-origin: center center;
+
   filter:
     drop-shadow(0 0 3px #38bdf8)
     drop-shadow(0 0 8px #0ea5e9)
-    drop-shadow(0 0 15px rgba(56,189,248,.55));
+    drop-shadow(0 0 16px rgba(56,189,248,.65));
 }
 
-/* ------------------------------------------
-   CÁMARAS DE VIDRIO
------------------------------------------- */
+/* VIDRIO */
 
 .arena-camara {
   position: absolute;
   left: 50%;
-  width: 19px;
+  width: 20px;
   height: 13px;
   transform: translateX(-50%);
   overflow: hidden;
-  border: 1.5px solid rgba(125,211,252,.9);
+
+  border: 1px solid rgba(125,211,252,.95);
+
   background:
     linear-gradient(
-      180deg,
-      rgba(56,189,248,.08),
-      rgba(14,165,233,.02)
+      135deg,
+      rgba(125,211,252,.12),
+      rgba(14,165,233,.035)
     );
+
   box-shadow:
-    inset 0 0 5px rgba(56,189,248,.15),
-    0 0 3px rgba(56,189,248,.4);
+    inset 0 0 5px rgba(56,189,248,.22),
+    inset 0 0 10px rgba(56,189,248,.08),
+    0 0 4px rgba(56,189,248,.45);
 }
 
 .arena-arriba {
   top: 0;
+
   clip-path: polygon(
     0 0,
     100% 0,
@@ -236,6 +240,7 @@ h1 {
 
 .arena-abajo {
   bottom: 0;
+
   clip-path: polygon(
     42% 0,
     58% 0,
@@ -244,80 +249,129 @@ h1 {
   );
 }
 
-/* ------------------------------------------
-   ARENA SUPERIOR
------------------------------------------- */
+/* ARENA SUPERIOR */
 
 .arena-arriba .arena-granos {
   position: absolute;
-  left: 10%;
+  left: 8%;
   bottom: 0;
-  width: 80%;
+
+  width: 84%;
   height: 75%;
+
   background:
-    radial-gradient(circle at 20% 35%, #67e8f9 0 1px, transparent 1.5px),
-    radial-gradient(circle at 45% 50%, #38bdf8 0 1px, transparent 1.5px),
-    radial-gradient(circle at 70% 30%, #7dd3fc 0 1px, transparent 1.5px),
+
+    radial-gradient(
+      circle at 18% 28%,
+      #a5f3fc 0 1px,
+      transparent 1.5px
+    ),
+
+    radial-gradient(
+      circle at 38% 45%,
+      #67e8f9 0 1px,
+      transparent 1.5px
+    ),
+
+    radial-gradient(
+      circle at 64% 25%,
+      #7dd3fc 0 1px,
+      transparent 1.5px
+    ),
+
+    radial-gradient(
+      circle at 78% 52%,
+      #38bdf8 0 1px,
+      transparent 1.5px
+    ),
+
     linear-gradient(
       to top,
-      #0ea5e9,
-      #38bdf8
+      #0284c7,
+      #0ea5e9 55%,
+      #67e8f9
     );
+
   clip-path: polygon(
     0 100%,
     100% 100%,
     63% 0,
     37% 0
   );
+
   box-shadow:
-    0 0 6px rgba(56,189,248,.9);
-  animation: arenaArriba 6s linear infinite;
+    0 0 5px rgba(56,189,248,.8),
+    0 0 12px rgba(14,165,233,.45);
+
+  animation:
+    arenaArriba 6s linear infinite,
+    brilloArena 2.4s ease-in-out infinite;
 }
 
-/* ------------------------------------------
-   ARENA INFERIOR
------------------------------------------- */
+/* ARENA INFERIOR */
 
 .arena-abajo .arena-granos {
   position: absolute;
-  left: 10%;
+  left: 8%;
   bottom: 0;
-  width: 80%;
-  height: 12%;
+
+  width: 84%;
+  height: 10%;
+
   background:
-    radial-gradient(circle at 20% 40%, #67e8f9 0 1px, transparent 1.5px),
-    radial-gradient(circle at 60% 30%, #38bdf8 0 1px, transparent 1.5px),
+
+    radial-gradient(
+      circle at 18% 35%,
+      #a5f3fc 0 1px,
+      transparent 1.5px
+    ),
+
+    radial-gradient(
+      circle at 45% 25%,
+      #67e8f9 0 1px,
+      transparent 1.5px
+    ),
+
+    radial-gradient(
+      circle at 72% 45%,
+      #38bdf8 0 1px,
+      transparent 1.5px
+    ),
+
     linear-gradient(
       to top,
-      #0ea5e9,
+      #0284c7,
       #38bdf8
     );
+
   clip-path: polygon(
     0 100%,
     100% 100%,
     72% 0,
     28% 0
   );
+
   box-shadow:
-    0 0 7px rgba(56,189,248,.8);
-  animation: arenaAbajo 6s linear infinite;
+    0 0 6px rgba(56,189,248,.85),
+    0 0 13px rgba(14,165,233,.5);
+
+  animation:
+    arenaAbajo 6s linear infinite,
+    brilloArena 2.4s ease-in-out infinite;
 }
 
 @keyframes arenaArriba {
 
   0% {
     height: 75%;
-    opacity: 1;
   }
 
-  80% {
-    height: 15%;
-    opacity: 1;
+  78% {
+    height: 18%;
   }
 
   100% {
     height: 5%;
-    opacity: .7;
   }
 }
 
@@ -327,8 +381,8 @@ h1 {
     height: 10%;
   }
 
-  80% {
-    height: 68%;
+  78% {
+    height: 66%;
   }
 
   100% {
@@ -336,47 +390,79 @@ h1 {
   }
 }
 
-/* ------------------------------------------
-   CUELLO CENTRAL
------------------------------------------- */
+/* BRILLO */
+
+@keyframes brilloArena {
+
+  0%,
+  100% {
+    filter: brightness(.85);
+  }
+
+  50% {
+    filter: brightness(1.25);
+  }
+}
+
+/* CUELLO CENTRAL */
 
 .arena-cuello {
   position: absolute;
   left: 50%;
-  top: 13px;
+  top: 12px;
+
   width: 4px;
-  height: 6px;
+  height: 8px;
+
   transform: translateX(-50%);
+
   background: rgba(56,189,248,.18);
-  border-left: 1px solid rgba(125,211,252,.8);
-  border-right: 1px solid rgba(125,211,252,.8);
+
+  border-left:
+    1px solid rgba(125,211,252,.9);
+
+  border-right:
+    1px solid rgba(125,211,252,.9);
+
+  box-shadow:
+    0 0 5px rgba(56,189,248,.35);
 }
 
-/* ------------------------------------------
-   FLUJO DE ARENA
------------------------------------------- */
+/* FLUJO */
 
 .arena-flujo {
   position: absolute;
-  top: 12px;
+
+  top: 11px;
   left: 50%;
-  width: 2px;
-  height: 9px;
+
+  width: 3px;
+  height: 10px;
+
   transform: translateX(-50%);
+
   pointer-events: none;
 }
 
 .arena-flujo span {
   position: absolute;
+
   left: 50%;
+
   width: 2px;
   height: 2px;
+
   border-radius: 50%;
-  background: #a5f3fc;
+
+  background: #cffafe;
+
   box-shadow:
     0 0 3px #67e8f9,
-    0 0 7px #0ea5e9;
-  animation: caerArena 1s linear infinite;
+    0 0 7px #38bdf8,
+    0 0 11px #0ea5e9;
+
+  animation:
+    caerArena 1s linear infinite;
 }
 
 .arena-flujo span:nth-child(1) {
@@ -396,43 +482,53 @@ h1 {
   0% {
     top: -2px;
     opacity: 0;
-    transform: translateX(-50%) scale(.6);
+    transform: translateX(-50%) scale(.5);
   }
 
   20% {
     opacity: 1;
   }
 
-  80% {
+  75% {
     opacity: 1;
   }
 
   100% {
-    top: 8px;
+    top: 9px;
     opacity: 0;
     transform: translateX(-50%) scale(1);
   }
 }
 
-/* ------------------------------------------
-   DESTELLO AL COMPLETAR
------------------------------------------- */
+/* DESTELLO */
 
 .arena-destello {
   position: absolute;
+
   left: 50%;
   top: 50%;
-  width: 5px;
-  height: 5px;
-  transform: translate(-50%, -50%) scale(0);
+
+  width: 4px;
+  height: 4px;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0);
+
   border-radius: 50%;
-  background: #fff;
+
+  background: #ffffff;
+
   box-shadow:
-    0 0 5px #fff,
-    0 0 12px #38bdf8,
-    0 0 20px #0ea5e9;
+    0 0 5px #ffffff,
+    0 0 10px #67e8f9,
+    0 0 18px #38bdf8,
+    0 0 28px #0ea5e9;
+
   opacity: 0;
-  animation: destelloArena 6s ease-in-out infinite;
+
+  animation:
+    destelloArena 6s ease-in-out infinite;
 }
 
 @keyframes destelloArena {
@@ -440,31 +536,40 @@ h1 {
   0%,
   82% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
+    transform:
+      translate(-50%, -50%)
+      scale(0);
   }
 
-  91% {
+  90% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1.5);
+    transform:
+      translate(-50%, -50%)
+      scale(1.2);
   }
 
-  96% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(2.5);
+  94% {
+    opacity: .6;
+    transform:
+      translate(-50%, -50%)
+      scale(2);
   }
 
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
+    transform:
+      translate(-50%, -50%)
+      scale(2.8);
   }
 }
 
-/* ------------------------------------------
-   GIRO DEL RELOJ
------------------------------------------- */
+/* GIRO */
 
 .reloj-arena.girando .arena-marco {
-  animation: giroArenaDigital 1.5s cubic-bezier(.4, 0, .2, 1);
+  animation:
+    giroArenaDigital
+    1.5s
+    cubic-bezier(.4, 0, .2, 1);
 }
 
 @keyframes giroArenaDigital {
@@ -477,6 +582,8 @@ h1 {
     transform: rotate(180deg);
   }
 }
+
+
 
 /* ==========================================
    SISTEMA ACTIVO
