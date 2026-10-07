@@ -178,69 +178,33 @@ h1 {
 ========================================== */
 
 .reloj-arena {
-
-  display: inline-block;
-
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
   margin-right: 12px;
-
   font-size: .9em;
-
-  filter:
-
-    drop-shadow(0 0 4px #38bdf8)
-
-    drop-shadow(0 0 12px #0ea5e9);
-
+  line-height: 1;
+  filter: drop-shadow(0 0 4px #38bdf8)
+          drop-shadow(0 0 12px #0ea5e9);
   transform-origin: center center;
-
+  vertical-align: middle;
 }
-
 
 .reloj-arena.girando {
-
-  animation:
-
-    giroArena 1.5s ease-in-out;
-
+  animation: giroArena 1.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 
 @keyframes giroArena {
-
   0% {
-
-    transform:
-
-      rotate(0deg)
-
-      scale(1);
-
+    transform: rotate(0deg);
   }
-
-
-  45% {
-
-    transform:
-
-      rotate(90deg)
-
-      scale(1.12);
-
-  }
-
 
   100% {
-
-    transform:
-
-      rotate(180deg)
-
-      scale(1);
-
+    transform: rotate(180deg);
   }
-
 }
-
 
 /* ==========================================
    SISTEMA ACTIVO
@@ -1755,48 +1719,14 @@ let arenaArriba =
 
 
 function girarRelojArena() {
-
-
-  relojArena.classList.remove(
-    "girando"
-  );
-
-
+  relojArena.classList.remove("girando");
   void relojArena.offsetWidth;
+  relojArena.classList.add("girando");
 
-
-  relojArena.classList.add(
-    "girando"
-  );
-
-
-  setTimeout(
-    () => {
-
-
-      if (
-        arenaArriba
-      ) {
-
-        relojArena.textContent =
-          "⌛";
-
-      } else {
-
-        relojArena.textContent =
-          "⏳";
-
-      }
-
-
-      arenaArriba =
-        !arenaArriba;
-
-
-    },
-    750
-  );
-
+  setTimeout(() => {
+    relojArena.textContent = arenaArriba ? "⌛" : "⏳";
+    arenaArriba = !arenaArriba;
+  }, 750);
 }
 
 
