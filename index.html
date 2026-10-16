@@ -2985,5 +2985,19 @@ const intervalo =
 
 </script>
 
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js")
+        .then(() => {
+          console.log("PWA: Service Worker registrado correctamente");
+        })
+        .catch((error) => {
+          console.error("Error al registrar el Service Worker:", error);
+        });
+    });
+  }
+</script>
+
 </body>
 </html>
