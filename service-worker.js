@@ -1,29 +1,50 @@
 
-const CACHE_NAME = "cuenta-regresiva-v1";
+const CACHE_NAME = "cuenta-regresiva-v2";
 
 const ARCHIVOS = [
   "/",
-  "/index.html",
-  "/manifest.json"
+  "/manifest.json",
+  "/icons/icon-192.png",
+  "/icons/icon-512.png"
 ];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(ARCHIVOS))
+      .then(async (cache) => {
+        await Promise.all(
+          ARCHIVOS.map(async (archivo) => {
+            try {
+              await cache.add(archivo);
+            } catch (error) {
+              console.warn(
+                "No se pudo guardar en caché:",
+                archivo,
+                error
+              );
+            }
+          })
+        );
+      })
       .then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((nombres) =>
-      Promise.all(
-        nombres
-          .filter((nombre) => nombre !== CACHE_NAME)
-          .map((nombre) => caches.delete(nombre))
+    caches.keys()
+      .then((nombres) =>
+        Promise.all(
+          nombres
+            .filter(
+              (nombre) =>
+                nombre.startsWith("cuenta-regresiva-") &&
+                nombre !== CACHE_NAME
+            )
+            .map((nombre) => caches.delete(nombre))
+        )
       )
-    ).then(() => self.clients.claim())
+      .then(() => self.clients.claim())
   );
 });
 
@@ -40,9 +61,11 @@ self.addEventListener("fetch", (event) => {
         if (respuesta && respuesta.ok) {
           const copia = respuesta.clone();
 
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, copia);
-          });
+          caches.open(CACHE_NAME)
+            .then((cache) =>
+              cache.put(event.request, copia)
+            )
+            .catch(() => {});
         }
 
         return respuesta;
@@ -54,7 +77,15 @@ self.addEventListener("fetch", (event) => {
 
         if (event.request.mode === "navigate") {
           return (
-            await caches.match("/index.html")
+            await caches.match("/")
+          ) || new Response(
+            "Sin conexión. Volvé a conectarte para abrir el contador.",
+            {
+              status: 503,
+              headers: {
+                "Content-Type": "text/plain; charset=utf-8"
+              }
+            }
           );
         }
 
