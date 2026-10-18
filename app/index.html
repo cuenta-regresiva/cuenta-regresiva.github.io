@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071426">
+  <meta name="description" content="Creá tu propia cuenta regresiva personalizada.">
+  <title>Mi Cuenta Regresiva</title>
+
+  <style>
+    :root {
+      --fondo: #071426;
+      --panel: #0d2038;
+      --cian: #00d9ff;
+      --texto: #eaf8ff;
+      --secundario: #a5bfd2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--texto);
+      background:
+        radial-gradient(ellipse at top, #12365a 0%, transparent 60%),
+        var(--fondo);
+    }
+
+    .contenedor {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+    }
+
+    .icono {
+      width: 92px;
+      height: 92px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0, 217, 255, 0.5);
+      border-radius: 50%;
+      color: var(--cian);
+      font-size: 46px;
+      box-shadow: 0 0 32px rgba(0, 217, 255, 0.15);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 29px;
+      line-height: 1.2;
+      color: var(--cian);
+    }
+
+    .introduccion {
+      margin: 0 0 28px;
+      color: var(--secundario);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .formulario {
+      padding: 22px;
+      text-align: left;
+      background: rgba(13, 32, 56, 0.92);
+      border: 1px solid rgba(0, 217, 255, 0.35);
+      border-radius: 20px;
+      box-shadow: 0 0 32px rgba(0, 217, 255, 0.08);
+    }
+
+    .campo {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin: 0 0 8px;
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--texto);
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px;
+      border: 1px solid #34536d;
+      border-radius: 10px;
+      background: #08182b;
+      color: var(--texto);
+      font: inherit;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--cian);
+      box-shadow: 0 0 0 2px rgba(0, 217, 255, 0.12);
+    }
+
+    input[type="color"] {
+      height: 52px;
+      padding: 5px;
+      cursor: pointer;
+    }
+
+    .ayuda {
+      margin-top: 6px;
+      color: var(--secundario);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    button {
+      width: 100%;
+      min-height: 52px;
+      margin-top: 6px;
+      padding: 14px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--cian);
+      color: #041321;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, filter 0.2s;
+    }
+
+    button:hover {
+      filter: brightness(1.08);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .nota {
+      margin-top: 18px;
+      color: var(--secundario);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    footer {
+      margin-top: 24px;
+      color: #6f8da5;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 380px) {
+      body {
+        padding: 18px 12px;
+      }
+
+      .formulario {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="contenedor">
+    <div class="icono" aria-hidden="true">⌛</div>
+
+    <h1>Mi Cuenta Regresiva</h1>
+
+    <p class="introduccion">
+      Creá una cuenta regresiva para ese momento especial.
+      Personalizá el evento, la fecha y el estilo.
+    </p>
+
+    <form class="formulario" id="formulario">
+      <div class="campo">
+        <label for="evento">Nombre del evento</label>
+        <input
+          type="text"
+          id="evento"
+          name="evento"
+          placeholder="Ej.: Mi próximo viaje"
+          maxlength="100"
+          required
+        >
+      </div>
+
+      <div class="campo">
+        <label for="fecha">Fecha del evento</label>
+        <input
+          type="date"
+          id="fecha"
+          name="fecha"
+          required
+        >
+      </div>
+
+      <div class="campo">
+        <label for="hora">Hora del evento</label>
+        <input
+          type="time"
+          id="hora"
+          name="hora"
+          value="00:00"
+          required
+        >
+      </div>
+
+      <div class="campo">
+        <label for="color">Color principal</label>
+        <input
+          type="color"
+          id="color"
+          name="color"
+          value="#00d9ff"
+        >
+        <p class="ayuda">
+          Elegí el color que querés destacar en tu contador.
+        </p>
+      </div>
+
+      <div class="campo">
+        <label for="estilo">Estilo visual</label>
+        <select id="estilo" name="estilo" required>
+          <option value="futurista">Futurista</option>
+          <option value="minimalista">Minimalista</option>
+          <option value="elegante">Elegante</option>
+        </select>
+      </div>
+
+      <button type="submit">Crear mi cuenta regresiva</button>
+    </form>
+
+    <p class="nota">
+      Tu configuración se guarda en este dispositivo.
+      Podés crear tu contador sin registrarte.
+    </p>
+
+    <footer>
+      SISTEMA DE CUENTA REGRESIVA
+    </footer>
+  </main>
+
+  <script>
+    const formulario = document.getElementById("formulario");
+    const campoEvento = document.getElementById("evento");
+    const campoFecha = document.getElementById("fecha");
+    const campoHora = document.getElementById("hora");
+    const campoColor = document.getElementById("color");
+    const campoEstilo = document.getElementById("estilo");
+
+    // Evita seleccionar una fecha anterior a hoy.
+    const ahora = new Date();
+    const anio = ahora.getFullYear();
+    const mes = String(ahora.getMonth() + 1).padStart(2, "0");
+    const dia = String(ahora.getDate()).padStart(2, "0");
+
+    campoFecha.min = `${anio}-${mes}-${dia}`;
+
+    formulario.addEventListener("submit", function (eventoFormulario) {
+      eventoFormulario.preventDefault();
+
+      const nombreEvento = campoEvento.value.trim();
+      const fechaEvento = campoFecha.value;
+      const horaEvento = campoHora.value;
+
+      if (!nombreEvento || !fechaEvento || !horaEvento) {
+        alert("Completá el nombre, la fecha y la hora del evento.");
+        return;
+      }
+
+      const fechaSeleccionada = new Date(
+        `${fechaEvento}T${horaEvento}:00`
+      );
+
+      if (Number.isNaN(fechaSeleccionada.getTime())) {
+        alert("La fecha o la hora ingresada no es válida.");
+        return;
+      }
+
+      if (fechaSeleccionada <= new Date()) {
+        alert("Elegí una fecha y hora futuras.");
+        return;
+      }
+
+      const configuracion = {
+        evento: nombreEvento,
+        fecha: fechaEvento,
+        hora: horaEvento,
+        color: campoColor.value,
+        estilo: campoEstilo.value
+      };
+
+      try {
+        localStorage.setItem(
+          "miCuentaRegresiva",
+          JSON.stringify(configuracion)
+        );
+
+        window.location.href = "contador.html";
+      } catch (error) {
+        alert(
+          "No se pudo guardar la configuración en este navegador. " +
+          "Verificá que el almacenamiento esté habilitado."
+        );
+      }
+    });
+  </script>
+</body>
+</html>
