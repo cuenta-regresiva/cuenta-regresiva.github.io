@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,11 +14,12 @@
       --acento: #00d9ff;
       --texto: #f1f7ff;
       --secundario: #9bb1ce;
+      --borde: rgba(0, 217, 255, .45);
+      --sombra: 0 0 22px rgba(0, 217, 255, .10);
+      --radio: 16px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -31,6 +33,7 @@
       background:
         radial-gradient(ellipse at top, #102c54, transparent 65%),
         var(--fondo);
+      transition: background .3s, color .3s;
     }
 
     main {
@@ -72,10 +75,11 @@
 
     .unidad {
       padding: 22px 8px;
-      border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
-      border-radius: 16px;
-      background: rgba(11, 24, 48, 0.88);
-      box-shadow: 0 0 22px color-mix(in srgb, var(--acento) 10%, transparent);
+      border: 1px solid var(--borde);
+      border-radius: var(--radio);
+      background: var(--panel);
+      box-shadow: var(--sombra);
+      transition: all .3s;
     }
 
     .numero {
@@ -107,7 +111,7 @@
       border: 1px solid var(--acento);
       border-radius: 10px;
       color: var(--texto);
-      background: #0b1830;
+      background: var(--panel);
       text-decoration: none;
       font: inherit;
       cursor: pointer;
@@ -125,6 +129,59 @@
       font-size: 12px;
     }
 
+    /* ESTILO FUTURISTA */
+    body.futurista .unidad {
+      box-shadow: 0 0 22px rgba(0, 217, 255, .12);
+    }
+
+    body.futurista .numero {
+      text-shadow: 0 0 14px var(--acento);
+    }
+
+    /* ESTILO MINIMALISTA */
+    body.minimalista {
+      background: #10151d;
+    }
+
+    body.minimalista .unidad {
+      background: transparent;
+      border-color: rgba(255, 255, 255, .22);
+      border-radius: 8px;
+      box-shadow: none;
+    }
+
+    body.minimalista .numero {
+      text-shadow: none;
+    }
+
+    body.minimalista .etiqueta {
+      letter-spacing: 1px;
+    }
+
+    /* ESTILO ELEGANTE */
+    body.elegante {
+      background:
+        radial-gradient(ellipse at top, #45321e, transparent 65%),
+        #15100c;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    body.elegante .unidad {
+      background: rgba(53, 39, 25, .75);
+      border-color: var(--acento);
+      border-radius: 4px;
+      box-shadow: none;
+    }
+
+    body.elegante .etiqueta {
+      letter-spacing: 4px;
+    }
+
+    body.elegante .numero {
+      font-weight: 500;
+      text-shadow: none;
+    }
+
     @media (min-width: 520px) {
       .reloj {
         grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -137,7 +194,7 @@
   </style>
 </head>
 
-<body>
+<body class="futurista">
   <main>
     <img class="icono" src="../icons/icon-192.png" alt="Reloj de arena">
 
@@ -167,7 +224,7 @@
     <div class="mensaje" id="mensaje"></div>
 
     <a class="boton principal" href="index.html">Configurar otro evento</a>
-    <button class="boton" id="editar">Editar este evento</button>
+    <button class="boton" id="editar" type="button">Editar este evento</button>
 
     <p class="nota">
       Tu evento y tus preferencias se guardan en este dispositivo.
@@ -176,7 +233,6 @@
 
   <script>
     const CLAVE = "miCuentaRegresiva";
-
     let datos;
 
     try {
@@ -197,7 +253,26 @@
           ? datos.color
           : "#00d9ff";
 
+        const estilosPermitidos = ["futurista", "minimalista", "elegante"];
+        const estilo = estilosPermitidos.includes(datos.estilo)
+          ? datos.estilo
+          : "futurista";
+
         document.documentElement.style.setProperty("--acento", acento);
+        document.documentElement.style.setProperty(
+          "--borde",
+          "color-mix(in srgb, " + acento + " 45%, transparent)"
+        );
+        document.documentElement.style.setProperty(
+          "--sombra",
+          "0 0 22px color-mix(in srgb, " + acento + " 10%, transparent)"
+        );
+
+        document.body.classList.remove(
+          "futurista", "minimalista", "elegante"
+        );
+        document.body.classList.add(estilo);
+
         document.getElementById("titulo").textContent = datos.evento;
 
         document.getElementById("fechaEvento").textContent =
@@ -216,23 +291,18 @@
 
             document.getElementById("mensaje").textContent =
               "¡Llegó el momento de tu evento!";
-
             return;
           }
 
           const total = Math.floor(diferencia / 1000);
-          const dias = Math.floor(total / 86400);
-          const horas = Math.floor((total % 86400) / 3600);
-          const minutos = Math.floor((total % 3600) / 60);
-          const segundos = total % 60;
-
-          document.getElementById("dias").textContent = dias;
+          document.getElementById("dias").textContent =
+            Math.floor(total / 86400);
           document.getElementById("horas").textContent =
-            String(horas).padStart(2, "0");
+            String(Math.floor((total % 86400) / 3600)).padStart(2, "0");
           document.getElementById("minutos").textContent =
-            String(minutos).padStart(2, "0");
+            String(Math.floor((total % 3600) / 60)).padStart(2, "0");
           document.getElementById("segundos").textContent =
-            String(segundos).padStart(2, "0");
+            String(total % 60).padStart(2, "0");
 
           document.getElementById("mensaje").textContent =
             "Cada segundo te acerca a tu objetivo.";
