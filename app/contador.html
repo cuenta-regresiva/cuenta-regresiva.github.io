@@ -19,7 +19,9 @@
       --radio: 16px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -173,13 +175,13 @@
       box-shadow: none;
     }
 
-    body.elegante .etiqueta {
-      letter-spacing: 4px;
-    }
-
     body.elegante .numero {
       font-weight: 500;
       text-shadow: none;
+    }
+
+    body.elegante .etiqueta {
+      letter-spacing: 4px;
     }
 
     @media (min-width: 520px) {
@@ -196,7 +198,11 @@
 
 <body class="futurista">
   <main>
-    <img class="icono" src="../icons/icon-192.png" alt="Reloj de arena">
+    <img
+      class="icono"
+      src="../icons/icon-192.png"
+      alt="Reloj de arena"
+    >
 
     <div class="etiqueta">MI CUENTA REGRESIVA</div>
     <h1 id="titulo">Preparando tu evento...</h1>
@@ -207,14 +213,17 @@
         <span class="numero" id="dias">0</span>
         <span class="nombre-unidad">DÍAS</span>
       </div>
+
       <div class="unidad">
         <span class="numero" id="horas">00</span>
         <span class="nombre-unidad">HORAS</span>
       </div>
+
       <div class="unidad">
         <span class="numero" id="minutos">00</span>
         <span class="nombre-unidad">MINUTOS</span>
       </div>
+
       <div class="unidad">
         <span class="numero" id="segundos">00</span>
         <span class="nombre-unidad">SEGUNDOS</span>
@@ -223,8 +232,13 @@
 
     <div class="mensaje" id="mensaje"></div>
 
-    <a class="boton principal" href="index.html">Configurar otro evento</a>
-    <button class="boton" id="editar" type="button">Editar este evento</button>
+    <a class="boton principal" href="index.html">
+      Configurar otro evento
+    </a>
+
+    <button class="boton" id="editar" type="button">
+      Editar este evento
+    </button>
 
     <p class="nota">
       Tu evento y tus preferencias se guardan en este dispositivo.
@@ -253,23 +267,21 @@
           ? datos.color
           : "#00d9ff";
 
-        const estilosPermitidos = ["futurista", "minimalista", "elegante"];
-        const estilo = estilosPermitidos.includes(datos.estilo)
+        const estilos = ["futurista", "minimalista", "elegante"];
+        const estilo = estilos.includes(datos.estilo)
           ? datos.estilo
           : "futurista";
 
         document.documentElement.style.setProperty("--acento", acento);
         document.documentElement.style.setProperty(
           "--borde",
-          "color-mix(in srgb, " + acento + " 45%, transparent)"
-        );
-        document.documentElement.style.setProperty(
-          "--sombra",
-          "0 0 22px color-mix(in srgb, " + acento + " 10%, transparent)"
+          "rgba(0, 217, 255, .45)"
         );
 
         document.body.classList.remove(
-          "futurista", "minimalista", "elegante"
+          "futurista",
+          "minimalista",
+          "elegante"
         );
         document.body.classList.add(estilo);
 
@@ -295,12 +307,16 @@
           }
 
           const total = Math.floor(diferencia / 1000);
+
           document.getElementById("dias").textContent =
             Math.floor(total / 86400);
+
           document.getElementById("horas").textContent =
             String(Math.floor((total % 86400) / 3600)).padStart(2, "0");
+
           document.getElementById("minutos").textContent =
             String(Math.floor((total % 3600) / 60)).padStart(2, "0");
+
           document.getElementById("segundos").textContent =
             String(total % 60).padStart(2, "0");
 
