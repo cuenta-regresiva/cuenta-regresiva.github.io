@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071a35">
+  <title>Mi cuenta regresiva</title>
+
+  <style>
+    :root {
+      --fondo: #030712;
+      --panel: #0b1830;
+      --acento: #00d9ff;
+      --texto: #f1f7ff;
+      --secundario: #9bb1ce;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--texto);
+      font-family: system-ui, Arial, sans-serif;
+      background:
+        radial-gradient(ellipse at top, #102c54, transparent 65%),
+        var(--fondo);
+    }
+
+    main {
+      width: 100%;
+      max-width: 720px;
+      text-align: center;
+    }
+
+    .icono {
+      width: 76px;
+      height: 76px;
+      object-fit: contain;
+      margin-bottom: 12px;
+    }
+
+    .etiqueta {
+      color: var(--acento);
+      font-size: 12px;
+      letter-spacing: 3px;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(26px, 6vw, 42px);
+      margin: 12px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .fecha {
+      color: var(--secundario);
+      margin-bottom: 30px;
+    }
+
+    .reloj {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .unidad {
+      padding: 22px 8px;
+      border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
+      border-radius: 16px;
+      background: rgba(11, 24, 48, 0.88);
+      box-shadow: 0 0 22px color-mix(in srgb, var(--acento) 10%, transparent);
+    }
+
+    .numero {
+      display: block;
+      color: var(--acento);
+      font-size: clamp(32px, 8vw, 54px);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.2;
+    }
+
+    .nombre-unidad {
+      display: block;
+      color: var(--secundario);
+      margin-top: 8px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .mensaje {
+      margin: 28px 0;
+      font-size: 18px;
+    }
+
+    .boton {
+      display: inline-block;
+      margin: 6px;
+      padding: 13px 18px;
+      border: 1px solid var(--acento);
+      border-radius: 10px;
+      color: var(--texto);
+      background: #0b1830;
+      text-decoration: none;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .principal {
+      color: #00101a;
+      background: var(--acento);
+      font-weight: 800;
+    }
+
+    .nota {
+      margin-top: 24px;
+      color: var(--secundario);
+      font-size: 12px;
+    }
+
+    @media (min-width: 520px) {
+      .reloj {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .unidad {
+        padding: 24px 6px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <img class="icono" src="../icons/icon-192.png" alt="Reloj de arena">
+
+    <div class="etiqueta">MI CUENTA REGRESIVA</div>
+    <h1 id="titulo">Preparando tu evento...</h1>
+    <div class="fecha" id="fechaEvento"></div>
+
+    <section class="reloj" aria-label="Tiempo restante">
+      <div class="unidad">
+        <span class="numero" id="dias">0</span>
+        <span class="nombre-unidad">DÍAS</span>
+      </div>
+      <div class="unidad">
+        <span class="numero" id="horas">00</span>
+        <span class="nombre-unidad">HORAS</span>
+      </div>
+      <div class="unidad">
+        <span class="numero" id="minutos">00</span>
+        <span class="nombre-unidad">MINUTOS</span>
+      </div>
+      <div class="unidad">
+        <span class="numero" id="segundos">00</span>
+        <span class="nombre-unidad">SEGUNDOS</span>
+      </div>
+    </section>
+
+    <div class="mensaje" id="mensaje"></div>
+
+    <a class="boton principal" href="index.html">Configurar otro evento</a>
+    <button class="boton" id="editar">Editar este evento</button>
+
+    <p class="nota">
+      Tu evento y tus preferencias se guardan en este dispositivo.
+    </p>
+  </main>
+
+  <script>
+    const CLAVE = "miCuentaRegresiva";
+
+    let datos;
+
+    try {
+      datos = JSON.parse(localStorage.getItem(CLAVE) || "null");
+    } catch (error) {
+      datos = null;
+    }
+
+    if (!datos || !datos.evento || !datos.fecha || !datos.hora) {
+      window.location.replace("index.html");
+    } else {
+      const objetivo = new Date(datos.fecha + "T" + datos.hora);
+
+      if (isNaN(objetivo.getTime())) {
+        window.location.replace("index.html");
+      } else {
+        const acento = /^#[0-9a-fA-F]{6}$/.test(datos.color || "")
+          ? datos.color
+          : "#00d9ff";
+
+        document.documentElement.style.setProperty("--acento", acento);
+        document.getElementById("titulo").textContent = datos.evento;
+
+        document.getElementById("fechaEvento").textContent =
+          objetivo.toLocaleString("es-AR", {
+            dateStyle: "long",
+            timeStyle: "short"
+          });
+
+        function actualizar() {
+          const diferencia = objetivo.getTime() - Date.now();
+
+          if (diferencia <= 0) {
+            ["dias", "horas", "minutos", "segundos"].forEach(id => {
+              document.getElementById(id).textContent = "0";
+            });
+
+            document.getElementById("mensaje").textContent =
+              "¡Llegó el momento de tu evento!";
+
+            return;
+          }
+
+          const total = Math.floor(diferencia / 1000);
+          const dias = Math.floor(total / 86400);
+          const horas = Math.floor((total % 86400) / 3600);
+          const minutos = Math.floor((total % 3600) / 60);
+          const segundos = total % 60;
+
+          document.getElementById("dias").textContent = dias;
+          document.getElementById("horas").textContent =
+            String(horas).padStart(2, "0");
+          document.getElementById("minutos").textContent =
+            String(minutos).padStart(2, "0");
+          document.getElementById("segundos").textContent =
+            String(segundos).padStart(2, "0");
+
+          document.getElementById("mensaje").textContent =
+            "Cada segundo te acerca a tu objetivo.";
+        }
+
+        actualizar();
+        setInterval(actualizar, 1000);
+
+        document.getElementById("editar").addEventListener("click", () => {
+          window.location.href = "index.html";
+        });
+      }
+    }
+  </script>
+</body>
+</html>
