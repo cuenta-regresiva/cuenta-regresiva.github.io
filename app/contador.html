@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="es">
-<head>
+<head
+  <link rel="manifest" href="./manifest.json">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#071a35">
@@ -332,6 +332,14 @@
         });
       }
     }
+  </script>
+  <script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js", { scope: "./" })
+        .catch(error => console.error("No se pudo registrar la app:", error));
+    });
+  }
   </script>
 </body>
 </html>
