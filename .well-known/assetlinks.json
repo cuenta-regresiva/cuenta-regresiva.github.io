@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.cuenta_regresiva.twa",
+      "sha256_cert_fingerprints": [
+        "76:02:E8:5F:6B:12:95:EB:0D:3C:BD:67:E7:D4:6D:7C:DB:A3:F7:08:A0:2D:AF:57:D3:8A:0A:75:E1:43:18:4E"
+      ]
+    }
+  }
+]
