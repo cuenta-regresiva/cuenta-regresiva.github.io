@@ -260,7 +260,8 @@
     
 // Recuperar el evento guardado al abrir la aplicación
 const parametros = new URLSearchParams(window.location.search);
-const abrirFormulario = parametros.get("formulario") === "1";
+const modoEdicion = parametros.get("editar") === "1";
+const abrirFormulario = parametros.get("formulario") === "1" || modoEdicion;
 
 if (!abrirFormulario) {
     try {
