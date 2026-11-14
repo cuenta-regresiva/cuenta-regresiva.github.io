@@ -257,7 +257,25 @@
   </main>
 
   <script>
-    const formulario = document.getElementById("formulario");
+    
+// Recuperar el evento guardado al abrir la aplicación
+const parametros = new URLSearchParams(window.location.search);
+const abrirFormulario = parametros.get("formulario") === "1";
+
+if (!abrirFormulario) {
+    try {
+        const guardado = localStorage.getItem("miCuentaRegresiva");
+        if (guardado) {
+            const datos = JSON.parse(guardado);
+            if (datos && datos.evento && datos.fecha && datos.hora) {
+                window.location.replace("contador.html");
+            }
+        }
+    } catch (error) {
+        console.warn("No se pudo recuperar el evento guardado.", error);
+    }
+}
+const formulario = document.getElementById("formulario");
     const campoEvento = document.getElementById("evento");
     const campoFecha = document.getElementById("fecha");
     const campoHora = document.getElementById("hora");
