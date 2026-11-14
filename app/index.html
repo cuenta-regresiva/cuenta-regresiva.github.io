@@ -257,13 +257,58 @@
   </main>
 
   <script>
-    const formulario = document.getElementById("formulario");
+    
+// Recuperar el evento guardado al abrir la aplicación
+const parametros = new URLSearchParams(window.location.search);
+const modoEdicion = parametros.get("editar") === "1";
+const abrirFormulario = parametros.get("formulario") === "1" || modoEdicion;
+
+if (!abrirFormulario) {
+    try {
+        const guardado = localStorage.getItem("miCuentaRegresiva");
+        if (guardado) {
+            const datos = JSON.parse(guardado);
+            if (datos && datos.evento && datos.fecha && datos.hora) {
+                window.location.replace("contador.html");
+            }
+        }
+    } catch (error) {
+        console.warn("No se pudo recuperar el evento guardado.", error);
+    }
+}
+const formulario = document.getElementById("formulario");
     const campoEvento = document.getElementById("evento");
     const campoFecha = document.getElementById("fecha");
     const campoHora = document.getElementById("hora");
     const campoColor = document.getElementById("color");
     const campoEstilo = document.getElementById("estilo");
 
+    // Recuperar los datos del evento cuando se solicita editarlo
+if (modoEdicion) {
+    try {
+        const guardado = localStorage.getItem("miCuentaRegresiva");
+
+        if (guardado) {
+            const datos = JSON.parse(guardado);
+
+            if (datos && datos.evento && datos.fecha && datos.hora) {
+                campoEvento.value = datos.evento;
+                campoFecha.value = datos.fecha;
+                campoHora.value = datos.hora;
+
+                if (datos.color) {
+                    campoColor.value = datos.color;
+                }
+
+                if (datos.estilo) {
+                    campoEstilo.value = datos.estilo;
+                }
+            }
+        }
+    } catch (error) {
+        console.warn("No se pudo cargar el evento para editar.", error);
+    }
+}
     // Evita seleccionar una fecha anterior a hoy.
     const ahora = new Date();
     const anio = ahora.getFullYear();
