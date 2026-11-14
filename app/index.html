@@ -283,6 +283,32 @@ const formulario = document.getElementById("formulario");
     const campoColor = document.getElementById("color");
     const campoEstilo = document.getElementById("estilo");
 
+    // Recuperar los datos del evento cuando se solicita editarlo
+if (modoEdicion) {
+    try {
+        const guardado = localStorage.getItem("miCuentaRegresiva");
+
+        if (guardado) {
+            const datos = JSON.parse(guardado);
+
+            if (datos && datos.evento && datos.fecha && datos.hora) {
+                campoEvento.value = datos.evento;
+                campoFecha.value = datos.fecha;
+                campoHora.value = datos.hora;
+
+                if (datos.color) {
+                    campoColor.value = datos.color;
+                }
+
+                if (datos.estilo) {
+                    campoEstilo.value = datos.estilo;
+                }
+            }
+        }
+    } catch (error) {
+        console.warn("No se pudo cargar el evento para editar.", error);
+    }
+}
     // Evita seleccionar una fecha anterior a hoy.
     const ahora = new Date();
     const anio = ahora.getFullYear();
